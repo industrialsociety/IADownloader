@@ -2,11 +2,12 @@ import os
 import internetarchive
 import sys
 
-def download_collection(collection_id, dest_dir, report_interval=10):
+def download_collection(collection_id, report_interval=10):
     search = internetarchive.search_items(f'collection:{collection_id}')
     total_items = len(search)
     print(f"Found {total_items} items in the collection '{collection_id}'.")
 
+    dest_dir = os.path.join("downloaded_files", collection_id)
     if not os.path.exists(dest_dir):
         os.makedirs(dest_dir)
 
@@ -21,9 +22,8 @@ def download_collection(collection_id, dest_dir, report_interval=10):
             sys.stdout.write(f"\rDownloaded {downloaded_count} out of {total_items} items...")
             sys.stdout.flush()
 
-    print("\nDownload complete. Total items downloaded: {downloaded_count}")
+    print(f"\nDownload complete. Total items downloaded: {downloaded_count}")
 
 if __name__ == "__main__":
     collection_id = input("Enter the collection ID: ")
-    dest_dir = "downloaded_files"
-    download_collection(collection_id, dest_dir)
+    download_collection(collection_id)
