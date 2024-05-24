@@ -1,5 +1,6 @@
 import os
 import internetarchive
+import sys
 
 def download_collection(collection_id, dest_dir, report_interval=10):
     search = internetarchive.search_items(f'collection:{collection_id}')
@@ -17,9 +18,10 @@ def download_collection(collection_id, dest_dir, report_interval=10):
         downloaded_count += 1
 
         if (downloaded_count % report_interval) == 0 or downloaded_count == total_items:
-            print(f"Downloaded {downloaded_count} out of {total_items} items...")
+            sys.stdout.write(f"\rDownloaded {downloaded_count} out of {total_items} items...")
+            sys.stdout.flush()
 
-    print(f"Download complete. Total items downloaded: {downloaded_count}")
+    print("\nDownload complete. Total items downloaded: {downloaded_count}")
 
 if __name__ == "__main__":
     collection_id = input("Enter the collection ID: ")
